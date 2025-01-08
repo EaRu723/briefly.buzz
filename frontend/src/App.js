@@ -1,53 +1,32 @@
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const stories = [
-    {
-      id: 1,
-      title: "Magic/tragic email links: don't make them the only option",
-      url: "https://recyclebin.zip",
-      points: 261,
-      author: "gepto24",
-      time: "4 hours ago",
-      comments: 120
-    },
-    {
-      id: 2,
-      title: "Mistakes engineers make in large established codebases",
-      url: "https://seangoedecke.com",
-      points: 205,
-      author: "BerisLavaPC",
-      time: "4 hours ago",
-      comments: 100
-    },
-    {
-      id: 3,
-      title: "Show HN: Tramway SDK – The Unholy Union Between Half-Life and Morrowind Engines",
-      url: "https://racenis.github.io",
-      points: 425,
-      author: "racenis",
-      time: "9 hours ago",
-      comments: 154
-    },
-    {
-      id: 4,
-      title: "Show HN: HipScript – Run CUDA in the Browser with WebAssembly and WebGPU",
-      url: "https://lights0123.com",
-      points: 155,
-      author: "lights0123",
-      time: "6 hours ago",
-      comments: 23
-    },
-    {
-      id: 5,
-      title: "A Day in the Life of a Prolific Voice Phishing Crew",
-      url: "https://krebsonsecurity.com",
-      points: 126,
-      author: "tosdacrot1",
-      time: "10 hours ago",
-      comments: 20
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/posts');
+      if (!response.ok) {
+        throw new Error('Failed to fetch posts');
+      }
+      const data = await response.json();
+      setPosts(data);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
     }
-  ];
+  };
+
+  if (loading) return <div className="App">Loading...</div>;
+  if (error) return <div className="App">Error: {error}</div>;
 
   return (
     <div className="App">
@@ -56,16 +35,22 @@ function App() {
           <img src="/assets/beehive_9466816.png" alt="Briefly Buzz Logo" className="logo" />
           <a href="#" className="site-title">Briefly Buzz</a>
         </div>
-        <a href="#">politics</a> | <a href="#">business</a> | <a href="#">tech</a> | <a href="#">sports</a>
+        <div className="nav-links">
+          <a href="#">politics</a> | <a href="#">business</a> | <a href="#">tech</a> | <a href="#">sports</a>
+        </div>
+        <div className="cta-buttons">
+          <button className="cta-button">Get in Touch</button>
+          <button className="cta-button">Make Your Own</button>
+        </div>
       </header>
       
       <main>
-        {stories.map((story) => (
-          <div key={story.id} className="item">
-            <span className="rank">{story.id}. </span>
-            <a href={story.url} className="item-title">{story.title}</a>
+        {posts.map((post) => (
+          <div key={post.id} className="item">
+            <span className="rank">{post.id}. </span>
+            <span className="item-title">{post.title}</span>
             <div className="item-details">
-              {story.points} points by <a href="#">{story.author}</a> {story.time} | <a href="#">hide</a> | <a href="#">{story.comments} comments</a>
+              by <a href="#">{post.author}</a> {post.created_at} | <a href="#">{post.content}</a>
             </div>
           </div>
         ))}
