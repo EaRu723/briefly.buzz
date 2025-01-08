@@ -128,4 +128,95 @@ footer {
 .cta-button:hover {
   background: #d27d47;
   color: #fbeb77;
+}
+
+.manifesto-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+.manifesto-container h1 {
+  color: #d27d47;
+  font-size: 28px;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.manifesto-content {
+  background-color: #fff9ef;
+  padding: 2.5rem;
+  border-radius: 8px;
+  border: 1px solid #fec965;
+  line-height: 1.6;
+}
+
+.manifesto-intro {
+  font-size: 1.1em;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.manifesto-content section {
+  margin-bottom: 2.5rem;
+}
+
+.manifesto-content h2 {
+  color: #d27d47;
+  font-size: 22px;
+  margin-bottom: 1.5rem;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.principle {
+  margin-bottom: 1.5rem;
+}
+
+.principle h3 {
+  color: #d27d47;
+  font-size: 18px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.manifesto-content ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 1rem;
+}
+
+.manifesto-content li {
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.manifesto-content li:before {
+  content: "•";
+  color: #fec965;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.manifesto-closing {
+  font-size: 1.1em;
+  margin: 2rem 0;
+  color: #333;
+}
+
+.manifesto-footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1em;
+  color: #d27d47;
+}
+
+.manifesto-footer em {
+  display: block;
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #333;
 } 
