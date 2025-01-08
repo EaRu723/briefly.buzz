@@ -1,30 +1,103 @@
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    sans-serif;
+  padding: 0;
+  background-color: #f6f6ef;
+  padding: 20px;
 }
 
 .App {
-  text-align: center;
-  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 
-.buttons {
+header {
+  background-color: #fec965;
+  padding: 5px 10px;
+  color: black;
   display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 20px;
+  align-items: center;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background: #007AFF;
-  color: white;
-  cursor: pointer;
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 }
 
-button:hover {
-  background: #0056b3;
+.logo {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+}
+
+.site-title {
+  font-size: 15px;
+}
+
+header a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 13.3px;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 10px;
+}
+
+.item {
+  padding: 5px 0;
+  line-height: 1.4;
+}
+
+.item-title {
+  text-decoration: none;
+  color: #000;
+  font-size: 13.3px;
+}
+
+.item-title:hover {
+  text-decoration: underline;
+}
+
+.item-title:visited {
+  color: #828282;
+}
+
+.item-details {
+  font-size: 10.7px;
+  color: #828282;
+}
+
+.item-details a {
+  color: #828282;
+  text-decoration: none;
+}
+
+.item-details a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 12px;
+  color: #828282;
+  border-top: 2px solid #fec965;
+  margin-top: 15px;
+}
+
+.rank {
+  color: #828282;
+  font-size: 13.3px;
 } 
