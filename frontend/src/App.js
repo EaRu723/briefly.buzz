@@ -1,26 +1,11 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, NavLink } from 'react-router-dom';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header/Header';
+import ArticleList from './components/ArticleList/ArticleList';
+import Footer from './components/Footer/Footer';
+import Modal from './components/Modal/Modal';
 import Manifesto from './components/Manifesto';
-
-function HomePage({ posts, loading, error }) {
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <main>
-      {posts.map((post) => (
-        <div key={post.id} className="item">
-          <span className="rank">{post.id}. </span>
-          <span className="item-title">{post.title}</span>
-          <div className="item-details">
-            by <a href="#">{post.author}</a> {post.created_at} | <a href="#">{post.content}</a>
-          </div>
-        </div>
-      ))}
-    </main>
-  );
-}
+import './App.css';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -35,9 +20,7 @@ function App() {
   const fetchPosts = async () => {
     try {
       const response = await fetch('http://localhost:8001/api/posts');
-      if (!response.ok) {
-        throw new Error('Failed to fetch posts');
-      }
+      if (!response.ok) throw new Error('Failed to fetch posts');
       const data = await response.json();
       setPosts(data);
       setLoading(false);
@@ -47,50 +30,26 @@ function App() {
     }
   };
 
-  const handleCloseModal = () => setShowModal(false);
-
   return (
     <Router>
       <div className="App">
-        <header>
-          <div className="logo-container">
-            <img src="/assets/beehive_9466816.png" alt="Briefly Buzz Logo" className="logo" />
-            <Link to="/" className="site-title">Briefly Buzz</Link>
-          </div>
-          <div className="nav-links">
-            <NavLink to="/politics">politics</NavLink> |{' '}
-            <NavLink to="/business">business</NavLink> |{' '}
-            <NavLink to="/tech">tech</NavLink> |{' '}
-            <NavLink to="/sports">sports</NavLink> |{' '}
-            <NavLink to="/manifesto">manifesto</NavLink>
-          </div>
-          <div className="cta-buttons">
-            <a href="mailto:andrea@lsd.so" className="cta-button">Get in Touch</a>
-            <button className="cta-button" onClick={() => setShowModal(true)}>Make Your Own</button>
-          </div>
-        </header>
-
+        <Header onMakeYourOwn={() => setShowModal(true)} />
+        
         <Routes>
-          <Route path="/" element={<HomePage posts={posts} loading={loading} error={error} />} />
+          <Route path="/" element={<ArticleList posts={posts} loading={loading} error={error} />} />
           <Route path="/manifesto" element={<Manifesto />} />
         </Routes>
 
-        {showModal && (
-          <div className="modal-overlay" onClick={handleCloseModal}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <h2>Coming Soon!</h2>
-              <p>This feature is coming soon. For now, please get in touch with us via email.</p>
-              <div className="modal-buttons">
-                <a href="mailto:andrea@lsd.so" className="modal-button">Get in Touch</a>
-                <button onClick={handleCloseModal}>Close</button>
-              </div>
-            </div>
+        <Modal show={showModal} onClose={() => setShowModal(false)}>
+          <h2>Coming Soon!</h2>
+          <p>This feature is coming soon. For now, please get in touch with us via email.</p>
+          <div className="modal-buttons">
+            <a href="mailto:andrea@lsd.so" className="modal-button">Get in Touch</a>
+            <button onClick={() => setShowModal(false)}>Close</button>
           </div>
-        )}
+        </Modal>
 
-        <footer>
-          <p>Briefly Buzz © 2025</p>
-        </footer>
+        <Footer />
       </div>
     </Router>
   );
