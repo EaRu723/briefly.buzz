@@ -15,9 +15,9 @@ function ArticleList({ posts, loading, error }) {
   return (
     <main>
       <h2 className="category-title">{categoryTitle}</h2>
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <div key={post.id} className="item">
-          <span className="rank">{post.id}. </span>
+          <span className="rank">{index + 1}. </span>
           <span className="item-title">{post.title}</span>
           <div className="item-details">
             by <span className="author">{post.author}</span> {post.created_at} | <span className="content">{post.content}</span>
