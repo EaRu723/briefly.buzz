@@ -9,8 +9,8 @@ function ArticleList({ posts, loading, error }) {
   if (error) return <div>Error: {error}</div>;
 
   const categoryTitle = category
-    ? `${category.charAt(0).toUpperCase() + category.slice(1)} News`
-    : "Latest News";
+    ? `${category.charAt(0).toUpperCase() + category.slice(1)}`
+    : "All News";
 
   return (
     <main>
