@@ -8,21 +8,22 @@ import Manifesto from './components/Manifesto';
 import './App.css';
 
 function CategoryArticles() {
-  const { category } = useParams();
+  const { category = "all" } = useParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`http://localhost:8001/api/posts/${category || 'all'}`);
+        const response = await fetch(`http://localhost:8001/api/posts/${category}`);
         if (!response.ok) throw new Error('Failed to fetch posts');
         const data = await response.json();
         setPosts(data);
-        setLoading(false);
       } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -59,13 +60,7 @@ function App() {
         
         <Routes>
           <Route path="/" element={<CategoryArticles />} />
-          {categories.map(category => (
-            <Route 
-              key={category.id}
-              path={category.path}
-              element={<CategoryArticles />}
-            />
-          ))}
+          <Route path="/:category" element={<CategoryArticles />} />
           <Route path="/manifesto" element={<Manifesto />} />
         </Routes>
 

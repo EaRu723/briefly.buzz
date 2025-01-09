@@ -34,3 +34,11 @@ main {
   .item-details a:hover {
     text-decoration: underline;
   }
+  
+  .category-title {
+    font-size: 18px;
+    color: #d27d47;
+    margin: 10px 0;
+    padding: 0 10px;
+    font-family: 'Libre Baskerville', serif;
+  }
