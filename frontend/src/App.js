@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, NavLink } from 'react-router-dom';
 import './App.css';
 import Manifesto from './components/Manifesto';
 
@@ -58,8 +58,11 @@ function App() {
             <Link to="/" className="site-title">Briefly Buzz</Link>
           </div>
           <div className="nav-links">
-            <a href="#">politics</a> | <a href="#">business</a> | <a href="#">tech</a> | <a href="#">sports</a> | 
-            <Link to="/manifesto" className="nav-link">manifesto</Link>
+            <NavLink to="/politics">politics</NavLink> |{' '}
+            <NavLink to="/business">business</NavLink> |{' '}
+            <NavLink to="/tech">tech</NavLink> |{' '}
+            <NavLink to="/sports">sports</NavLink> |{' '}
+            <NavLink to="/manifesto">manifesto</NavLink>
           </div>
           <div className="cta-buttons">
             <a href="mailto:andrea@lsd.so" className="cta-button">Get in Touch</a>

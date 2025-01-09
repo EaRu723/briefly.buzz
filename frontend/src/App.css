@@ -280,4 +280,13 @@ footer {
 .modal-button:hover {
   background: #d27d47;
   color: #fbeb77;
+}
+
+.nav-links a.active {
+  color: #d27d47;
+  font-weight: bold;
+  background-color: rgba(254, 201, 101, 0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: -4px -4px;
 } 
