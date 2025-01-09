@@ -13,9 +13,13 @@ function Header({ onMakeYourOwn }) {
         <NavLink to="/politics">politics</NavLink> |{' '}
         <NavLink to="/business">business</NavLink> |{' '}
         <NavLink to="/tech">tech</NavLink> |{' '}
-        <NavLink to="/sports">sports</NavLink> |{' '}
+        <NavLink to="/sports">sports</NavLink>
+      </div>
+
+      <div className="manifesto">
         <NavLink to="/manifesto">manifesto</NavLink>
       </div>
+
       <div className="cta-buttons">
         <button className="cta-button" onClick={onMakeYourOwn}>Make Your Own</button>
         <a href="mailto:andrea@lsd.so" className="cta-button">Get in Touch</a>

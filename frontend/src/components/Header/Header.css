@@ -56,3 +56,15 @@ header {
     background: #d27d47;
     color: #fbeb77;
   }
+  
+  /* Style for nav links and manifesto link */
+  header a.active {
+    color: #d27d47;
+    /* text-decoration: underline; */
+  }
+  
+  /* If you want to specifically target just the manifesto link */
+  .manifesto a.active {
+    color: #d27d47;
+    /* text-decoration: underline; */
+  }
