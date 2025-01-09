@@ -34,12 +34,40 @@ posts = [
     }
 ]
 
+categories = [
+    {
+        "id": 1,
+        "name": "politics",
+        "path": "/politics"
+    },
+    {
+        "id": 2,
+        "name": "business",
+        "path": "/business"
+    },
+    {
+        "id": 3,
+        "name": "tech",
+        "path": "/tech"
+    },
+    {
+        "id": 4,
+        "name": "sports",
+        "path": "/sports"
+    }
+]
+
 class Post(BaseModel):
     id: int
     title: str
     content: str
     created_at: str
     author: str
+
+class Category(BaseModel):
+    id: int
+    name: str
+    path: str
 
 @app.get("/")
 def read_root():
@@ -55,6 +83,10 @@ def get_post(post_id: int):
     if post is None:
         raise HTTPException(status_code=404, detail="Post not found")
     return post
+
+@app.get("/api/categories", response_model=List[Category])
+def get_categories():
+    return categories
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8001, reload=True)

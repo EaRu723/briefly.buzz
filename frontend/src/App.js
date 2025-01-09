@@ -12,9 +12,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     fetchPosts();
+    fetchCategories();
   }, []);
 
   const fetchPosts = async () => {
@@ -30,6 +32,17 @@ function App() {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:8001/api/categories');
+      if (!response.ok) throw new Error('Failed to fetch categories');
+      const data = await response.json();
+      setCategories(data);
+    } catch (err) {
+      console.error('Error fetching categories:', err);
+    }
+  };
+
   return (
     <Router>
       <div className="App">
@@ -37,6 +50,13 @@ function App() {
         
         <Routes>
           <Route path="/" element={<ArticleList posts={posts} loading={loading} error={error} />} />
+          {categories.map(category => (
+            <Route 
+              key={category.id}
+              path={category.path}
+              element={<ArticleList posts={posts} loading={loading} error={error} />}
+            />
+          ))}
           <Route path="/manifesto" element={<Manifesto />} />
         </Routes>
 

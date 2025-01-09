@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 
 function Header({ onMakeYourOwn }) {
+  const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:8001/api/categories');
+      if (!response.ok) throw new Error('Failed to fetch categories');
+      const data = await response.json();
+      setCategories(data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error fetching categories:', err);
+    }
+  };
+
   return (
     <header>
       <div className="logo-container">
@@ -10,10 +29,12 @@ function Header({ onMakeYourOwn }) {
         <Link to="/" className="site-title">Briefly Buzz</Link>
       </div>
       <div className="nav-links">
-        <NavLink to="/politics">politics</NavLink> |{' '}
-        <NavLink to="/business">business</NavLink> |{' '}
-        <NavLink to="/tech">tech</NavLink> |{' '}
-        <NavLink to="/sports">sports</NavLink>
+        {categories.map((category, index) => (
+          <React.Fragment key={category.id}>
+            <NavLink to={category.path}>{category.name}</NavLink>
+            {index < categories.length - 1 && ' | '}
+          </React.Fragment>
+        ))}
       </div>
 
       <div className="manifesto">
