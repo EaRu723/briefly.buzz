@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import Header from './components/Header/Header';
 import ArticleList from './components/ArticleList/ArticleList';
 import Footer from './components/Footer/Footer';
@@ -7,30 +7,39 @@ import Modal from './components/Modal/Modal';
 import Manifesto from './components/Manifesto';
 import './App.css';
 
-function App() {
+function CategoryArticles() {
+  const { category } = useParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(`http://localhost:8001/api/posts/${category || 'all'}`);
+        if (!response.ok) throw new Error('Failed to fetch posts');
+        const data = await response.json();
+        setPosts(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [category]);
+
+  return <ArticleList posts={posts} loading={loading} error={error} />;
+}
+
+function App() {
   const [showModal, setShowModal] = useState(false);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetchPosts();
     fetchCategories();
   }, []);
-
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch('http://localhost:8001/api/posts');
-      if (!response.ok) throw new Error('Failed to fetch posts');
-      const data = await response.json();
-      setPosts(data);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
-  };
 
   const fetchCategories = async () => {
     try {
@@ -49,12 +58,12 @@ function App() {
         <Header onMakeYourOwn={() => setShowModal(true)} />
         
         <Routes>
-          <Route path="/" element={<ArticleList posts={posts} loading={loading} error={error} />} />
+          <Route path="/" element={<CategoryArticles />} />
           {categories.map(category => (
             <Route 
               key={category.id}
               path={category.path}
-              element={<ArticleList posts={posts} loading={loading} error={error} />}
+              element={<CategoryArticles />}
             />
           ))}
           <Route path="/manifesto" element={<Manifesto />} />

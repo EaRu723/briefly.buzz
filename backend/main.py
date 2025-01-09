@@ -4,58 +4,19 @@ from pydantic import BaseModel
 from typing import List
 from datetime import datetime
 import uvicorn
+from articles import posts
+from categories import categories
 
 app = FastAPI()
 
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Sample data - in a real app, this would come from a database
-posts = [
-    {
-        "id": 1,
-        "title": "First Post",
-        "content": "This is the content of the first post",
-        "created_at": "2024-01-01T12:00:00",
-        "author": "John Doe"
-    },
-    {
-        "id": 2,
-        "title": "Second Post",
-        "content": "This is the content of the second post",
-        "created_at": "2024-01-02T14:30:00",
-        "author": "Jane Smith"
-    }
-]
-
-categories = [
-    {
-        "id": 1,
-        "name": "politics",
-        "path": "/politics"
-    },
-    {
-        "id": 2,
-        "name": "business",
-        "path": "/business"
-    },
-    {
-        "id": 3,
-        "name": "tech",
-        "path": "/tech"
-    },
-    {
-        "id": 4,
-        "name": "sports",
-        "path": "/sports"
-    }
-]
 
 class Post(BaseModel):
     id: int
@@ -63,26 +24,25 @@ class Post(BaseModel):
     content: str
     created_at: str
     author: str
+    category: str
 
 class Category(BaseModel):
     id: int
     name: str
     path: str
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Briefly.buzz API"}
-
-@app.get("/api/posts", response_model=List[Post])
-def get_posts():
-    return posts
-
-@app.get("/api/posts/{post_id}", response_model=Post)
-def get_post(post_id: int):
-    post = next((post for post in posts if post["id"] == post_id), None)
-    if post is None:
-        raise HTTPException(status_code=404, detail="Post not found")
-    return post
+@app.get("/api/posts/{category}", response_model=List[Post])
+def get_posts_by_category(category: str):
+    if category == "all":
+        # Return all posts flattened into a single list
+        all_posts = []
+        for cat_posts in posts.values():
+            all_posts.extend(cat_posts)
+        return sorted(all_posts, key=lambda x: x["id"])
+    
+    if category not in posts:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return posts[category]
 
 @app.get("/api/categories", response_model=List[Category])
 def get_categories():
