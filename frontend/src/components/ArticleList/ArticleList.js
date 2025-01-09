@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import './ArticleList.css';
 
 function ArticleList({ posts, loading, error }) {
-  const { category = "all" } = useParams();
+  const { category } = useParams();
   
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const categoryTitle = category === "all" 
-    ? "All News" 
-    : `${category.charAt(0).toUpperCase() + category.slice(1)} News`;
+  const categoryTitle = category
+    ? `${category.charAt(0).toUpperCase() + category.slice(1)} News`
+    : "Latest News";
 
   return (
     <main>

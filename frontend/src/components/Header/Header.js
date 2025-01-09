@@ -29,7 +29,6 @@ function Header({ onMakeYourOwn }) {
         <Link to="/" className="site-title">Briefly Buzz</Link>
       </div>
       <div className="nav-links">
-        <NavLink to="/" end>all</NavLink> |{' '}
         {categories.map((category, index) => (
           <React.Fragment key={category.id}>
             <NavLink to={category.path}>{category.name}</NavLink>
