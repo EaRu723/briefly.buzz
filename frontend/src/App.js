@@ -26,6 +26,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -46,6 +47,8 @@ function App() {
     }
   };
 
+  const handleCloseModal = () => setShowModal(false);
+
   return (
     <Router>
       <div className="App">
@@ -60,7 +63,7 @@ function App() {
           </div>
           <div className="cta-buttons">
             <a href="mailto:andrea@lsd.so" className="cta-button">Get in Touch</a>
-            <button className="cta-button">Make Your Own</button>
+            <button className="cta-button" onClick={() => setShowModal(true)}>Make Your Own</button>
           </div>
         </header>
 
@@ -68,6 +71,19 @@ function App() {
           <Route path="/" element={<HomePage posts={posts} loading={loading} error={error} />} />
           <Route path="/manifesto" element={<Manifesto />} />
         </Routes>
+
+        {showModal && (
+          <div className="modal-overlay" onClick={handleCloseModal}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              <h2>Coming Soon!</h2>
+              <p>This feature is coming soon. For now, please get in touch with us via email.</p>
+              <div className="modal-buttons">
+                <a href="mailto:andrea@lsd.so" className="modal-button">Get in Touch</a>
+                <button onClick={handleCloseModal}>Close</button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <footer>
           <p>Briefly Buzz © 2025</p>
